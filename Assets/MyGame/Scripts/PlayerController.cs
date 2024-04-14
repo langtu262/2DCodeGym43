@@ -17,6 +17,7 @@ public class PlayerController : MonoBehaviour,ICanTakeDamage
     private int idRunning;
     private int isDead;
     [SerializeField] int maxHealth=100;
+    [SerializeField] private int _coin = 0;
     private int currentHealth;
     private bool isPlayerDead=false;
     // Start is called before the first frame update
@@ -27,6 +28,7 @@ public class PlayerController : MonoBehaviour,ICanTakeDamage
         idRunning = Animator.StringToHash("isRunning");
         isDead = Animator.StringToHash("isDead");
         currentHealth = maxHealth;
+        EventManagerGame.onHealth?.Invoke(currentHealth);
     }
 
     // Update is called once per frame
@@ -45,6 +47,21 @@ public class PlayerController : MonoBehaviour,ICanTakeDamage
         if(isGround&&Input.GetKeyDown(KeyCode.Space)&&isPlayerDead==false)
         {
             Jump();
+        }
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Damager")
+        {
+            currentHealth -= 60;
+            Destroy(collision.gameObject);
+            EventManagerGame.onHealth?.Invoke(currentHealth);
+        }
+        if (collision.gameObject.tag == "Coin")
+        {
+            _coin = 5;
+            Destroy(collision.gameObject);
+            EventManagerGame.onCoin?.Invoke(_coin);
         }
     }
     private void Move(float dir)
@@ -73,8 +90,8 @@ public class PlayerController : MonoBehaviour,ICanTakeDamage
     {
         if(isPlayerDead) return;
         currentHealth -= damage;
-        Debug.Log("Player Health" + currentHealth);
-        if(currentHealth < 0)
+        EventManagerGame.onHealth?.Invoke(currentHealth);
+        if (currentHealth < 0)
         {
             isPlayerDead = true;
             currentHealth=0;
