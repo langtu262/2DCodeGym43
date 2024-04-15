@@ -48,4 +48,11 @@ public class GameManager : MonoBehaviour
         EventManagerGame.onHealth.RemoveListener(UpdateHealth);
         EventManagerGame.onCoin.RemoveListener(UpdateCoin);
     }
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            Time.timeScale = Time.timeScale == 1 ? 0 : 1; // neu Time.timeScale = 1 thì Time.timeScale = 0,neu Time.timeScale = 0 thì Time.timeScale = 1
+        }
+    }
 }
