@@ -49,8 +49,8 @@ public class AudioManager : MonoBehaviour
     /*public void BackGroundMusic()
     {
         PlayBackgroundMusic(_backGround);
-    }
-    public void SoundEffectMusic()
+    }*/
+   /* public void SoundEffectMusic()
     {
         PlaySoundEffectMusic(click);
     }*/
